@@ -36,7 +36,6 @@ import {
 } from 'lucide-react';
 
 import './styles.css';
-import './mobile.css';
 
 
 // ============================================================
@@ -45,7 +44,7 @@ import './mobile.css';
 
 const API =
   import.meta.env.VITE_API_URL ||
-  `${window.location.protocol}//${window.location.hostname}:5000/api`;
+  'http://localhost:5000/api';
 
 
 // ============================================================
@@ -135,18 +134,18 @@ function Card({
 function Button({
   children,
   className = '',
-  type = 'button',
   ...props
 }) {
+
   return (
     <button
-      type={type}
       className={`btn ${className}`}
       {...props}
     >
       {children}
     </button>
   );
+
 }
 function MachineScanner({ onMachineFound, onClose }) {
   const scannerRef = useRef(null);
@@ -159,56 +158,28 @@ function MachineScanner({ onMachineFound, onClose }) {
 
   useEffect(() => {
     let active = true;
-    let started = false;
 
     async function startScanner() {
       try {
-        if (!navigator.mediaDevices?.getUserMedia) {
-          throw new Error('Camera API unavailable');
-        }
-
-        const element = document.getElementById('machine-reader');
-        if (!element) throw new Error('Scanner container not found');
-
         const scanner = new Html5Qrcode('machine-reader');
         scannerRef.current = scanner;
 
         await scanner.start(
-          { facingMode: { ideal: 'environment' } },
-          {
-            fps: 10,
-            qrbox: (viewfinderWidth, viewfinderHeight) => {
-              const size = Math.floor(Math.min(viewfinderWidth, viewfinderHeight) * 0.68);
-              return { width: Math.max(180, Math.min(size, 300)), height: Math.max(180, Math.min(size, 300)) };
-            },
-            aspectRatio: 1.0,
-            disableFlip: false
-          },
+          { facingMode: 'environment' },
+          { fps: 10, qrbox: { width: 250, height: 250 } },
           async (decodedText) => {
             if (!active) return;
             const machineId = decodedText.trim();
             if (!machineId) return;
-
-            if (started) {
-              started = false;
-              try { await scanner.stop(); } catch {}
-              try { scanner.clear(); } catch {}
-            }
-
+            try { await scanner.stop(); } catch {}
             if (active) callbackRef.current(machineId);
           },
           () => {}
         );
-
-        started = true;
       } catch (err) {
         console.error('QR scanner error:', err);
         if (active) {
-          setError(
-            window.isSecureContext
-              ? 'Camera could not be started. Allow camera permission or use Demo Machine.'
-              : 'Camera access requires HTTPS on most phones. Use the Demo Machine button for now.'
-          );
+          setError('Camera could not be started. Allow camera permission or use Demo Machine.');
         }
       }
     }
@@ -219,12 +190,7 @@ function MachineScanner({ onMachineFound, onClose }) {
       active = false;
       const scanner = scannerRef.current;
       scannerRef.current = null;
-      if (scanner && started) {
-        started = false;
-        scanner.stop().catch(() => {}).finally(() => {
-          try { scanner.clear(); } catch {}
-        });
-      }
+      if (scanner) scanner.stop().catch(() => {});
     };
   }, []);
 
@@ -797,7 +763,7 @@ function AdminDashboard({ user, onLogout }) {
   const activeLabel = menu.find(item => item[0] === tab)?.[1] || 'Dashboard';
 
   return (
-    <div className="admin-dashboard-root" style={{
+    <div style={{
       display: 'grid',
       gridTemplateColumns: '230px minmax(0, 1fr)',
       gap: 22,
@@ -1941,11 +1907,7 @@ function Auth({
             />
           </label>
 
-        <Button
-  type="submit"
-  className="primary full"
-  disabled={busy}
->
+          <Button className="primary full" disabled={busy}>
             {busy ? (
               <>
                 <LoaderCircle className="spin" />
@@ -3221,10 +3183,7 @@ function Recommendations({
     machineLoading,
     setMachineLoading
   ] = useState(true);
-const [
-  busy,
-  setBusy
-] = useState(false);
+
 
   // ----------------------------------------------------------
   // Load products + demo machine
