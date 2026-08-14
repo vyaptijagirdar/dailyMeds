@@ -1386,6 +1386,11 @@ function App() {
                 'analysis'
               )
             }
+            onVending={() =>
+              setScreen(
+                'machine'
+              )
+            }
             notify={
               notify
             }
@@ -3146,6 +3151,7 @@ function Finding({
 function Recommendations({
   report,
   onBack,
+  onVending,
   notify
 }) {
 
@@ -3183,6 +3189,35 @@ function Recommendations({
     machineLoading,
     setMachineLoading
   ] = useState(true);
+
+
+  // Machine connection UI state
+  const [busy, setBusy] = useState(false);
+  const [showScanner, setShowScanner] = useState(false);
+
+  async function connectScannedMachine(scannedId) {
+    const id = String(scannedId || '').trim();
+
+    if (!id) {
+      setError('Invalid machine QR code.');
+      return;
+    }
+
+    setBusy(true);
+    setError('');
+
+    try {
+      const data = await api(`/machines/${encodeURIComponent(id)}`);
+      setMachine(data.machine);
+      sessionStorage.setItem('dm_machine', id);
+      setShowScanner(false);
+      notify(`Connected to ${id}`);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setBusy(false);
+    }
+  }
 
 
   // ----------------------------------------------------------
@@ -4179,10 +4214,9 @@ function Recommendations({
                   'DM-DEMO-001'
               );
 
-              window.location.hash =
-                '#machine';
-
-              window.location.reload();
+              if (onVending) {
+                onVending();
+              }
 
             }}
           >
