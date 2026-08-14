@@ -3217,7 +3217,10 @@ function Recommendations({
     machineLoading,
     setMachineLoading
   ] = useState(true);
-
+const [
+  busy,
+  setBusy
+] = useState(false);
 
   // ----------------------------------------------------------
   // Load products + demo machine
