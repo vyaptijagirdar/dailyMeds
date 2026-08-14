@@ -1,0 +1,346 @@
+/* ==========================================================
+   DailyMeds mobile/responsive layer
+   Keeps the existing desktop UI intact and only changes layout
+   below tablet width.
+   ========================================================== */
+
+* { box-sizing: border-box; }
+
+html, body, #root { min-height: 100%; }
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+
+button, input, select, textarea {
+  font: inherit;
+}
+
+button, .primary, .secondary, .logout, .file-button {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+img, video, canvas, svg { max-width: 100%; }
+
+@media (max-width: 900px) {
+  .container {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-left: 18px !important;
+    padding-right: 18px !important;
+  }
+
+  .topbar {
+    padding: 13px 18px !important;
+    min-height: 68px;
+  }
+
+  .topbar .brand small { display: none; }
+
+  .landing-shell,
+  .landing-page,
+  .landing-hero {
+    width: 100% !important;
+  }
+
+  .landing-hero {
+    grid-template-columns: 1fr !important;
+    gap: 22px !important;
+  }
+
+  .landing-visual { order: -1; }
+
+  .landing-title {
+    font-size: clamp(38px, 10vw, 64px) !important;
+    line-height: 1.02 !important;
+  }
+
+  .landing-actions {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  .landing-actions > * {
+    width: 100% !important;
+  }
+
+  .landing-flow {
+    grid-template-columns: 1fr !important;
+  }
+
+  .landing-feature {
+    min-width: 0 !important;
+  }
+
+  .grid,
+  .product-grid,
+  .form-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .summary,
+  .card,
+  .cart-card,
+  .payment-card,
+  .success-card,
+  .machine-card,
+  .safety-card,
+  .why-box,
+  .upload-box {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .cart-header,
+  .cart-row,
+  .product-bottom,
+  .machine-actions,
+  .checkout-action {
+    flex-wrap: wrap !important;
+  }
+
+  .cart-row {
+    gap: 12px !important;
+  }
+
+  .cart-row > *:last-child {
+    margin-left: auto;
+  }
+
+  .checkout-action,
+  .primary.full,
+  .secondary.full {
+    width: 100% !important;
+  }
+
+  /* Admin dashboard */
+  .admin-mobile-wrap {
+    display: block !important;
+  }
+
+  /* Tables become horizontally scrollable instead of breaking the page. */
+  table {
+    min-width: 620px;
+  }
+
+  .admin-table-scroll {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Inline-style admin two-column layout: allow it to stack. */
+  .admin-dashboard-root {
+    grid-template-columns: 1fr !important;
+  }
+
+  .admin-dashboard-root > aside {
+    position: static !important;
+  }
+
+  .admin-dashboard-root > aside nav {
+    display: flex !important;
+    overflow-x: auto;
+    gap: 6px !important;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .admin-dashboard-root > aside nav button {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    white-space: nowrap;
+  }
+
+  .scanner-overlay {
+    padding: 10px !important;
+    align-items: flex-end !important;
+  }
+
+  .scanner-card {
+    width: min(100%, 520px) !important;
+    max-height: calc(100dvh - 20px);
+    overflow-y: auto;
+    border-radius: 22px !important;
+    padding: 16px !important;
+  }
+
+  #machine-reader {
+    width: 100% !important;
+    min-height: 280px;
+    overflow: hidden;
+    border-radius: 16px;
+  }
+
+  #machine-reader video {
+    width: 100% !important;
+    height: auto !important;
+    object-fit: cover !important;
+    border-radius: 16px;
+  }
+
+  .scanner-header {
+    gap: 10px !important;
+  }
+
+  .scanner-header h2 {
+    font-size: 22px !important;
+  }
+
+  .scanner-help {
+    margin-top: 12px;
+  }
+
+  .login-role-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .topbar {
+    padding: 11px 14px !important;
+  }
+
+  .topbar .logo {
+    width: 38px !important;
+    height: 38px !important;
+  }
+
+  .topbar .brand strong {
+    font-size: 18px !important;
+  }
+
+  .container {
+    padding: 16px 13px 90px !important;
+  }
+
+  .auth-wrap {
+    min-height: calc(100dvh - 120px) !important;
+    align-items: flex-start !important;
+    padding-top: 18px !important;
+  }
+
+  .auth-card {
+    width: 100% !important;
+    padding: 22px 17px !important;
+    border-radius: 20px !important;
+  }
+
+  .login-role-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .landing-title {
+    font-size: 42px !important;
+  }
+
+  .landing-copy {
+    font-size: 16px !important;
+  }
+
+  .landing-card,
+  .landing-feature,
+  .landing-flow-item {
+    padding: 16px !important;
+  }
+
+  .section-heading {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+  }
+
+  .product-card {
+    padding: 15px !important;
+  }
+
+  .product-quantity {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .quantity button {
+    width: 42px !important;
+    height: 42px !important;
+  }
+
+  .file-button,
+  .primary,
+  .secondary {
+    min-height: 46px;
+  }
+
+  input, select, textarea {
+    min-height: 46px;
+    font-size: 16px !important; /* prevents iOS zoom */
+  }
+
+  .payment-total,
+  .cart-total {
+    flex-wrap: wrap !important;
+  }
+
+  .machine-visual {
+    min-height: 250px !important;
+  }
+
+  .machine-reader {
+    min-height: 250px !important;
+  }
+
+  .scanner-overlay {
+    padding: 0 !important;
+  }
+
+  .scanner-card {
+    width: 100% !important;
+    max-height: 100dvh;
+    min-height: 100dvh;
+    border-radius: 0 !important;
+    padding: 16px !important;
+  }
+
+  #machine-reader {
+    min-height: 300px;
+  }
+
+  .admin-dashboard-root > section > header {
+    align-items: flex-start !important;
+  }
+
+  .admin-dashboard-root > section > header > div:last-child {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .admin-dashboard-root > section > header button {
+    flex: 1;
+  }
+
+  .toast {
+    left: 12px !important;
+    right: 12px !important;
+    bottom: 18px !important;
+    width: auto !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .landing-title { font-size: 36px !important; }
+  .container { padding-left: 10px !important; padding-right: 10px !important; }
+  .auth-card { padding: 18px 14px !important; }
+}
+
+/* Safe-area support for phones with a home indicator/notch. */
+@supports (padding: max(0px)) {
+  .topbar {
+    padding-top: max(11px, env(safe-area-inset-top));
+  }
+
+  .container {
+    padding-bottom: max(90px, calc(70px + env(safe-area-inset-bottom))) !important;
+  }
+}
