@@ -135,18 +135,18 @@ function Card({
 function Button({
   children,
   className = '',
+  type = 'button',
   ...props
 }) {
-
   return (
     <button
+      type={type}
       className={`btn ${className}`}
       {...props}
     >
       {children}
     </button>
   );
-
 }
 function MachineScanner({ onMachineFound, onClose }) {
   const scannerRef = useRef(null);
@@ -1941,7 +1941,11 @@ function Auth({
             />
           </label>
 
-          <Button className="primary full" disabled={busy}>
+        <Button
+  type="submit"
+  className="primary full"
+  disabled={busy}
+>
             {busy ? (
               <>
                 <LoaderCircle className="spin" />
